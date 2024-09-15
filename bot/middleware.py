@@ -10,7 +10,7 @@ from exceptions import BotAccessError
 def check_access(func):
     async def wrapper(*arg, **kwarg):
         message: types.Message = arg[0]
-        if message.from_user.id not in settings.ACCESS_USER_IDS:
+        if message.from_user.id in settings.ACCESS_USER_IDS:
             res = await func(*arg, **kwarg)
             return res
         else:

@@ -17,7 +17,7 @@ async def send_welcome(message: types.Message, bot:AsyncTeleBot = bot):
     btn1 = types.KeyboardButton("🇷🇺 Русский")
     btn2 = types.KeyboardButton('🇬🇧 English')
     markup.add(btn1, btn2)
-    bot.send_message(message.from_user.id, "🇷🇺 Выберите язык / 🇬🇧 Choose your language", reply_markup=markup)
+    await bot.send_message(message.from_user.id, "🇷🇺 Выберите язык / 🇬🇧 Choose your language", reply_markup=markup)
 
 
 @bot.message_handler(func=lambda message: True)
