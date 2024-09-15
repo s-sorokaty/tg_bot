@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.11"
 pytelegrambotapi = "^4.22.1"
 pydantic-settings = "^2.5.2"
+aiohttp = "^3.10.5"
+steampy = "^1.1.2"
 
 
 [build-system]
