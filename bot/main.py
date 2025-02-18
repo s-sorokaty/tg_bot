@@ -1,28 +1,24 @@
-import asyncio
+import random
 
-from telebot import types
-from telebot.async_telebot import AsyncTeleBot
-
-from config import settings
-from middleware import check_access
-
-bot = AsyncTeleBot(settings.BOT_TOKEN)
-
-@bot.message_handler(commands=['help', 'start'])
-@check_access
-async def send_welcome(message: types.Message, bot:AsyncTeleBot = bot):
-    #print(message.from_user)
-    text = 'Hi, I am EchoBot.\nJust write me something and I will repeat it!'
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1 = types.KeyboardButton("🇷🇺 Русский")
-    btn2 = types.KeyboardButton('🇬🇧 English')
-    markup.add(btn1, btn2)
-    await bot.send_message(message.from_user.id, "🇷🇺 Выберите язык / 🇬🇧 Choose your language", reply_markup=markup)
+from telebot import types, TeleBot
 
 
-@bot.message_handler(func=lambda message: True)
-@check_access
-async def echo_message(message: types.Message, bot:AsyncTeleBot = bot):
-    await bot.reply_to(message, message.text)
+from config import Settings
 
-asyncio.run(bot.polling())
+from handler import handler
+from question import Test
+
+settings = Settings()
+bot = TeleBot(settings.BOT_TOKEN)
+
+@bot.message_handler(commands = ['start'])
+def url(message: types.Message):
+    Test.draw_hello_message(message, bot)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call: types.CallbackQuery):
+    handler(call.data, call.message, bot)
+
+
+bot.infinity_polling()
