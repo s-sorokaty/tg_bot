@@ -1,7 +1,5 @@
-import random
-
 from telebot import types, TeleBot
-
+from db.init import init as db_init
 
 from config import Settings
 
@@ -9,6 +7,7 @@ from handler import handler
 from question import Test
 
 settings = Settings()
+db_init()
 bot = TeleBot(settings.BOT_TOKEN)
 
 @bot.message_handler(commands = ['start'])

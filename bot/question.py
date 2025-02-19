@@ -64,7 +64,7 @@ class Test():
         
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
         btncompleted = types.InlineKeyboardButton(text='Вперед >>', callback_data=callback_next)
-        markup.add(btnback, btncompleted)
+        markup.add(btncompleted, btnback)
         bot.edit_message_text("Кто живет с тобой?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
@@ -127,4 +127,21 @@ class Test():
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
         markup.add(btn1, btn2, btn3, btn4, btnback)
         bot.edit_message_text("Перейдем к стилизации! Какое настроение больше тебе подходит?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+    @staticmethod
+    def draw_seven(message :types.Message, bot: TeleBot):
+        callback_next = "seven_completed"
+        callback_back = "to_six"
+
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn1 = types.InlineKeyboardButton(text='Терраса', callback_data=f"{callback_next}_answer_1")
+        btn2 = types.InlineKeyboardButton(text='Камин', callback_data=f"{callback_next}_answer_2")
+        btn3 = types.InlineKeyboardButton(text='Джакузи', callback_data=f"{callback_next}_answer_3")
+        btn4 = types.InlineKeyboardButton(text='Библиотека', callback_data=f"{callback_next}_answer_4")
+        btn5 = types.InlineKeyboardButton(text='Подвесное кресло-качель', callback_data=f"{callback_next}_answer_5")
+        btn6 = types.InlineKeyboardButton(text='Второй этаж', callback_data=f"{callback_next}_answer_6")
+   
+        btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
+        markup.add(btn1, btn2, btn3, btn4, btn5, btn6, btnback)
+        bot.edit_message_text("Что должно быть в квартире мечты?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         

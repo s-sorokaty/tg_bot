@@ -13,6 +13,7 @@ aiohttp = "^3.10.5"
 steampy = "^1.1.2"
 watchdog = "^6.0.0"
 psutil = "^7.0.0"
+sqlalchemy = "^2.0.38"
 
 
 [build-system]
