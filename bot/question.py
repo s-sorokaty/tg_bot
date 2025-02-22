@@ -16,32 +16,37 @@ class Test():
 
     @staticmethod
     def draw_hello_message(message :types.Message, bot: TeleBot):
-        callback_next = "quiz_started"
+        callback_next = "1"
         markup = types.InlineKeyboardMarkup(row_width=1)
-    
         btn1 = types.InlineKeyboardButton(text='Старт', callback_data=f"{callback_next}")
         markup.add(btn1)
-    
-        message = bot.send_message(message.from_user.id, hello_message, reply_markup = markup)
+
+        bot.send_photo(chat_id=message.chat.id, photo=open('images/placeholder.png', 'rb'), caption=hello_message, reply_markup=markup)
+        
+        #message = bot.send_message(message.from_user.id, hello_message, reply_markup = markup)
 
 
     def draw_first(self, message :types.Message, bot: TeleBot):
-        callback_next = "first_completed"
+        callback_next = "2"
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton(text='Мужчина, 16-25 лет', callback_data=f"{callback_next}_answer_1")
         btn2 = types.InlineKeyboardButton(text='Мужчина, 26-45 лет', callback_data=f"{callback_next}_answer_2") 
         btn3 = types.InlineKeyboardButton(text='Мужчина, 45+ лет', callback_data=f"{callback_next}_answer_3")
         btn4 = types.InlineKeyboardButton(text='Женщина, 16-25 лет', callback_data=f"{callback_next}_answer_4")
-        btn5= types.InlineKeyboardButton(text='Женщина, 26-45 лет', callback_data=f"{callback_next}_answer_5")
+        btn5 = types.InlineKeyboardButton(text='Женщина, 26-45 лет', callback_data=f"{callback_next}_answer_5")
         btn6 = types.InlineKeyboardButton(text='Женщина, 45+ лет', callback_data=f"{callback_next}_answer_6")
         markup.add(btn1, btn2, btn3, btn4, btn5, btn6)
-        bot.edit_message_text("Намекни нам на свой пол и возраст :)", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
 
+        new_photo = types.InputMediaPhoto(open('images/first.png', 'rb'), caption="Намекни нам на свой пол и возраст :)")
+        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        
+        #bot.edit_message_caption("Намекни нам на свой пол и возраст :)", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
 
     @staticmethod
     def draw_second(message :types.Message, bot: TeleBot, people: People):
-        callback_next = "second_completed"
-        callback_back = 'to_first'
+        callback_next = "3"
+        callback_back = '1'
 
         
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -65,14 +70,16 @@ class Test():
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
         btncompleted = types.InlineKeyboardButton(text='Вперед >>', callback_data=callback_next)
         markup.add(btncompleted, btnback)
-        bot.edit_message_text("Кто живет с тобой?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+
+        new_photo = types.InputMediaPhoto(open('images/second.png', 'rb'), caption="Кто живет с тобой?")
+        bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
 
     @staticmethod
     def draw_third(message :types.Message, bot: TeleBot):
-        callback_next = "third_completed"
-        callback_back = 'to_second'
+        callback_next = "4"
+        callback_back = '2'
 
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton(text='Да, регулярно! Гостеприимство мое второе имя', callback_data=f"{callback_next}_answer_1")
@@ -81,13 +88,16 @@ class Test():
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
 
         markup.add(btn1, btn2, btn3, btnback)
-        bot.edit_message_text("Бывает ли, что у тебя остаётся ночевать кто-то из близких?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        new_photo = types.InputMediaPhoto(open('images/third.jpg', 'rb'), caption="Бывает ли, что у тебя остаётся ночевать кто-то из близких?")
+        bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+        #bot.edit_message_text("Бывает ли, что у тебя остаётся ночевать кто-то из близких?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
     @staticmethod
     def draw_fourth(message :types.Message, bot: TeleBot):
-        callback_next = "fourth_completed"
-        callback_back = "to_third"
+        callback_next = "5"
+        callback_back = "3"
 
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton(text='Один И этот человек мечтает о домашнем офисе', callback_data=f"{callback_next}_answer_1")
@@ -96,13 +106,18 @@ class Test():
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
 
         markup.add(btn1, btn2, btn3, btnback)
-        bot.edit_message_text("Сколько человек работают из дома?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+        new_photo = types.InputMediaPhoto(open('images/thourth.jpg', 'rb'), caption="Сколько человек работают из дома?")
+        bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+        
+        #bot.edit_message_text("Сколько человек работают из дома?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
     @staticmethod
     def draw_five(message :types.Message, bot: TeleBot):
-        callback_next = "five_completed"
-        callback_back = "to_fourth"
+        callback_next = "6"
+        callback_back = "4"
 
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton(text='В специальной комнате Мне спокойнее, когда все под рукой', callback_data=f"{callback_next}_answer_1")
@@ -110,13 +125,17 @@ class Test():
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
 
         markup.add(btn1, btn2, btnback)
-        bot.edit_message_text("Как будет устроен быт?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+        new_photo = types.InputMediaPhoto(open('images/five.jpg', 'rb'), caption="Как будет устроен быт?")
+        bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+        #bot.edit_message_text("Как будет устроен быт?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
     @staticmethod
     def draw_six(message :types.Message, bot: TeleBot):
-        callback_next = "six_completed"
-        callback_back = "to_five"
+        callback_next = "7"
+        callback_back = "5"
 
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton(text='Эстетика', callback_data=f"{callback_next}_answer_1")
@@ -126,22 +145,83 @@ class Test():
         
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
         markup.add(btn1, btn2, btn3, btn4, btnback)
-        bot.edit_message_text("Перейдем к стилизации! Какое настроение больше тебе подходит?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+
+        new_photo = types.InputMediaPhoto(open('images/six.jpg', 'rb'), caption="Перейдем к стилизации! Какое настроение больше тебе подходит?")
+        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        
+        #bot.edit_message_text("Перейдем к стилизации! Какое настроение больше тебе подходит?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
     @staticmethod
-    def draw_seven(message :types.Message, bot: TeleBot):
-        callback_next = "seven_completed"
-        callback_back = "to_six"
+    def draw_seven(message :types.Message, bot: TeleBot, image_type:int):
+        callback_next = "8"
+        callback_back = "6"
 
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton(text='Терраса', callback_data=f"{callback_next}_answer_1")
-        btn2 = types.InlineKeyboardButton(text='Камин', callback_data=f"{callback_next}_answer_2")
-        btn3 = types.InlineKeyboardButton(text='Джакузи', callback_data=f"{callback_next}_answer_3")
-        btn4 = types.InlineKeyboardButton(text='Библиотека', callback_data=f"{callback_next}_answer_4")
-        btn5 = types.InlineKeyboardButton(text='Подвесное кресло-качель', callback_data=f"{callback_next}_answer_5")
-        btn6 = types.InlineKeyboardButton(text='Второй этаж', callback_data=f"{callback_next}_answer_6")
+        btn1 = types.InlineKeyboardButton(text='1', callback_data=f"{callback_next}_answer_1")
+        btn2 = types.InlineKeyboardButton(text='2', callback_data=f"{callback_next}_answer_2")
+        btn3 = types.InlineKeyboardButton(text='3', callback_data=f"{callback_next}_answer_3")
+        btn4 = types.InlineKeyboardButton(text='4', callback_data=f"{callback_next}_answer_4")
+        #btn5 = types.InlineKeyboardButton(text='Подвесное кресло-качель', callback_data=f"{callback_next}_answer_5")
+        #btn6 = types.InlineKeyboardButton(text='Второй этаж', callback_data=f"{callback_next}_answer_6")
    
         btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
-        markup.add(btn1, btn2, btn3, btn4, btn5, btn6, btnback)
-        bot.edit_message_text("Что должно быть в квартире мечты?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        markup.add(btn1, btn2, btn3, btn4, btnback)
+
+        new_photo = types.InputMediaPhoto(open(f'images/seven_{image_type}.jpg', 'rb'), caption="А здесь?")
+        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        
+        #bot.edit_message_caption("Что должно быть в квартире мечты?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+    @staticmethod
+    def draw_eight(message :types.Message, bot: TeleBot, image_type:int):
+        callback_next = "9"
+        callback_back = "7"
+
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn1 = types.InlineKeyboardButton(text='1', callback_data=f"{callback_next}_answer_1")
+        btn2 = types.InlineKeyboardButton(text='2', callback_data=f"{callback_next}_answer_2")
+        btn3 = types.InlineKeyboardButton(text='3', callback_data=f"{callback_next}_answer_3")
+        btn4 = types.InlineKeyboardButton(text='4', callback_data=f"{callback_next}_answer_4")
+   
+        btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
+        markup.add(btn1, btn2, btn3, btn4, btnback)
+
+        new_photo = types.InputMediaPhoto(open(f'images/eight_{image_type}.jpg', 'rb'), caption="Здесь?")
+        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        
+
+        #bot.edit_message_text("Здесь?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
+
+    @staticmethod
+    def draw_nine(message :types.Message, bot: TeleBot, image_type:int):
+        callback_next = "10"
+        callback_back = "8"
+
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn1 = types.InlineKeyboardButton(text='1', callback_data=f"{callback_next}_answer_1")
+        btn2 = types.InlineKeyboardButton(text='2', callback_data=f"{callback_next}_answer_2")
+        btn3 = types.InlineKeyboardButton(text='3', callback_data=f"{callback_next}_answer_3")
+        btn4 = types.InlineKeyboardButton(text='4', callback_data=f"{callback_next}_answer_4")
+   
+        btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
+        markup.add(btn1, btn2, btn3, btn4, btnback)
+
+        new_photo = types.InputMediaPhoto(open(f'images/nine_{image_type}.jpg', 'rb'), caption="И вот тут ещё")
+        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        
+        #bot.edit_message_text("И вот тут еще", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+
+
+
+    @staticmethod
+    def draw_result(message :types.Message, bot: TeleBot, res):
+        callback_back = "8"
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btnback = types.InlineKeyboardButton(text='<< Назад', callback_data=callback_back)
+
+        markup.add(btnback)
+
+        bot.edit_message_text("Ваши результаты: ", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
+        
         

@@ -11,46 +11,46 @@ def handler(callback_text:str, message: types.Message, bot: TeleBot):
 
     result = callback_text.split("_answer_")
     callback_text = result[0]
-    if len(result) > 1:
-        answer = result[1]
 
-    if callback_text == 'quiz_started':
+    if callback_text == '1':
         drawler.draw_first(message, bot)
         
-    if callback_text == 'first_completed':
+    if callback_text == '2':
         people = People(bb=5)
         drawler.draw_second(message, bot, people)
-        Result().add_result(message.message_id, message.chat.id, 1, answer, SessionLocal())
-    elif callback_text == 'to_first':
-        drawler.draw_first(message, bot)
 
-    if callback_text == 'second_completed':
-        drawler.draw_third(message, bot)
-        #Result().add_result(message.message_id, message.chat.id, 2, answer, SessionLocal())
-    elif callback_text == 'to_second':
-        people = People(bb=5)
-        drawler.draw_second(message, bot, people)
-    
-    if callback_text == 'third_completed':
-        drawler.draw_fourth(message, bot)
-        Result().add_result(message.message_id, message.chat.id, 3, answer, SessionLocal())
-    elif callback_text == 'to_third':
+    if callback_text == '3':
         drawler.draw_third(message, bot)
     
-    if callback_text == 'fourth_completed':
-        drawler.draw_five(message, bot)
-        Result().add_result(message.message_id, message.chat.id, 4, answer, SessionLocal())
-    elif callback_text == 'to_fourth':
+    if callback_text == '4':
         drawler.draw_fourth(message, bot)
-    
-    if callback_text == 'five_completed':
-        drawler.draw_six(message, bot)
-        Result().add_result(message.message_id, message.chat.id, 5, answer, SessionLocal())
-    elif callback_text == 'to_five':
+
+    if callback_text == '5':
         drawler.draw_five(message, bot)
-    
-    if callback_text == 'six_completed':
-        drawler.draw_seven(message, bot)
-        Result().add_result(message.message_id, message.chat.id, 6, answer, SessionLocal())
-    elif callback_text == 'to_six':
+
+    if callback_text == '6':
         drawler.draw_six(message, bot)
+
+    if callback_text == '7':
+        if len(result) > 1:
+            answer = result[1]
+        else:
+            answer = Result().get_result_by_question(message.message_id, message.chat.id, 6, SessionLocal())[0].answer
+        drawler.draw_seven(message, bot, answer)
+
+    if callback_text == '8':
+        ans = Result().get_result_by_question(message.message_id, message.chat.id, 6, SessionLocal())
+        drawler.draw_eight(message, bot, ans[0].answer)
+
+    if callback_text == '9':
+        ans = Result().get_result_by_question(message.message_id, message.chat.id, 6, SessionLocal())
+        drawler.draw_nine(message, bot, ans[0].answer)
+
+    #if callback_text == '9':
+    #    res = Result().get_all_db_model(message.message_id, message.chat.id, SessionLocal())
+    #    drawler.draw_result(message, bot, res) 
+
+
+    if len(result) > 1:
+        answer = result[1]
+        Result().add_result(message.message_id, message.chat.id, int(callback_text) - 1, answer, SessionLocal())
