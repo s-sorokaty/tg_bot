@@ -6,4 +6,5 @@ class Settings(BaseSettings):
 
     BOT_TOKEN : str
     ACCESS_USER_IDS: list[int]
+    CHAT_TO_SEND_RESULT: list[int]
     
