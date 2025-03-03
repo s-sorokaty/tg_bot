@@ -76,12 +76,9 @@ def get_result(res:list[Result]):
     if count_bedroom + count_bedroom_ch < 2 and count_working_from_home == 2:
         count_office = 2
         
-    
-
     # Убираем одну спальню
     if count_office + count_bedroom_ch + count_bedroom > 4:
         count_bedroom = 1
-
 
     # ИГРОВАЯ
     if teen_m + teen_w >= 3 and count_office + count_bedroom_ch + count_bedroom < 4:
@@ -112,7 +109,6 @@ def create_final_message(result:list[Result], full_name, username) -> str:
             if int(res.answer) == 6: message += """- Женщина, 45+ лет\n"""
 
         if int(res.question_id) == 2:
-            message +=f"\n{res.question_id}. Рядом с идеальной квартирой находится...\n"
             answers = res.answer.split("_")
             message +=f"\n{res.question_id}. С тобой проживают дети?\n"
             message += f"""- Ребенок, М {answers[0]}\n"""

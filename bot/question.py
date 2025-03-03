@@ -6,7 +6,6 @@ from model import People
 
 class Test():
 
-
     @staticmethod
     def draw_hello_message(message :types.Message, bot: TeleBot):
         callback_next = "1"
@@ -16,9 +15,6 @@ class Test():
 
         bot.send_photo(chat_id=message.chat.id, photo=open('images/placeholder.png', 'rb'), caption=messages_text.hello_message, reply_markup=markup)
         
-        #message = bot.send_message(message.from_user.id, hello_message, reply_markup = markup)
-
-
     def draw_first(self, message :types.Message, bot: TeleBot):
         callback_next = "2"
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -33,9 +29,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open('images/first.png', 'rb'), caption="Намекни нам на свой пол и возраст :)")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
         
-        #bot.edit_message_caption("Намекни нам на свой пол и возраст :)", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
-
     @staticmethod
     def draw_second(message :types.Message, bot: TeleBot, people: People):
         callback_next = "3"
@@ -81,7 +74,7 @@ class Test():
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
 
         markup.add(btn1, btn2, btnback)
-        new_photo = types.InputMediaPhoto(open('images/third.jpg', 'rb'), caption="Ты живёшь с партнёром?")
+        new_photo = types.InputMediaPhoto(open('images/third_1.jpg', 'rb'), caption="Ты живёшь с партнёром?")
         bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
     @staticmethod
@@ -95,9 +88,8 @@ class Test():
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
 
         markup.add(btn1, btn2, btnback)
-        new_photo = types.InputMediaPhoto(open('images/third.jpg', 'rb'), caption="Живёте со старшим поколением вместе?")
+        new_photo = types.InputMediaPhoto(open('images/third_2.jpg', 'rb'), caption="Живёте со старшим поколением вместе?")
         bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
 
     @staticmethod
     def draw_five(message :types.Message, bot: TeleBot):
@@ -114,9 +106,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open('images/third.jpg', 'rb'), caption="Бывает ли, что у тебя остаётся ночевать кто-то из близких?")
         bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
-        #bot.edit_message_text("Бывает ли, что у тебя остаётся ночевать кто-то из близких?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
-
     @staticmethod
     def draw_six(message :types.Message, bot: TeleBot):
         callback_next = "7"
@@ -133,10 +122,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open('images/thourth.jpg', 'rb'), caption="Сколько человек работают из дома?")
         bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
-        
-        #bot.edit_message_text("Сколько человек работают из дома?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
-
     @staticmethod
     def draw_seven(message :types.Message, bot: TeleBot):
         callback_next = "8"
@@ -151,8 +136,6 @@ class Test():
         
         new_photo = types.InputMediaPhoto(open('images/five.jpg', 'rb'), caption="Как будет устроен быт?")
         bot.edit_message_media(media=new_photo, message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
-        #bot.edit_message_text("Как будет устроен быт?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
 
     @staticmethod
@@ -172,8 +155,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open('images/six.jpg', 'rb'), caption="Перейдем к стилизации! Какое настроение больше тебе подходит?")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
         
-        #bot.edit_message_text("Перейдем к стилизации! Какое настроение больше тебе подходит?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
     @staticmethod
     def draw_nine(message :types.Message, bot: TeleBot, image_type:int):
         callback_next = "10"
@@ -184,16 +165,12 @@ class Test():
         btn2 = types.InlineKeyboardButton(text='2', callback_data=f"{callback_next}_answer_2")
         btn3 = types.InlineKeyboardButton(text='3', callback_data=f"{callback_next}_answer_3")
         btn4 = types.InlineKeyboardButton(text='4', callback_data=f"{callback_next}_answer_4")
-        #btn5 = types.InlineKeyboardButton(text='Подвесное кресло-качель', callback_data=f"{callback_next}_answer_5")
-        #btn6 = types.InlineKeyboardButton(text='Второй этаж', callback_data=f"{callback_next}_answer_6")
    
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
         markup.add(btn1, btn2, btn3, btn4, btnback)
 
         new_photo = types.InputMediaPhoto(open(f'images/seven_{image_type}.jpg', 'rb'), caption="А здесь?")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
-        
-        #bot.edit_message_caption("Что должно быть в квартире мечты?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
         
     @staticmethod
     def draw_ten(message :types.Message, bot: TeleBot, image_type:int):
@@ -212,10 +189,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open(f'images/eight_{image_type}.jpg', 'rb'), caption="Здесь?")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
         
-
-        #bot.edit_message_text("Здесь?", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-        
-
     @staticmethod
     def draw_eleven(message :types.Message, bot: TeleBot, image_type:int):
         callback_next = "12"
@@ -232,9 +205,6 @@ class Test():
 
         new_photo = types.InputMediaPhoto(open(f'images/nine_{image_type}.jpg', 'rb'), caption="И вот тут ещё")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
-        
-        #bot.edit_message_text("И вот тут еще", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-
 
     @staticmethod
     def draw_twelve(message :types.Message, bot: TeleBot, selected_items: list[str]):
@@ -263,8 +233,6 @@ class Test():
         new_photo = types.InputMediaPhoto(open(f'images/ten.jpg', 'rb'), caption="Что должно быть в квартире мечты? (Возможно несколько вариантов)")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
         
-        #bot.edit_message_text("И вот тут еще", message_id=message.id, chat_id=message.chat.id, reply_markup=markup)
-
     @staticmethod
     def draw_thirteen(message :types.Message, bot: TeleBot, selected_items: list[str]):
         callback_next = "14"
@@ -290,15 +258,15 @@ class Test():
         new_photo = types.InputMediaPhoto(open(f'images/eleven.jpg', 'rb'), caption="Рядом с идеальной квартирой находится...")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
-
     @staticmethod
     def draw_fourthteen(message :types.Message, bot: TeleBot, image_name:str):
-        callback_back = "13"
+
+        #Uncomment in development
+        #callback_back = "13"
+        #btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
+        #markup.add(btnback)
+
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
-
-        markup.add(btnback)
-
         new_photo = types.InputMediaPhoto(open(f'results_images/{image_name}', 'rb'), caption="Тест пройден!")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 

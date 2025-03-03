@@ -136,7 +136,6 @@ def handler(callback_text:str, message: types.Message, bot: TeleBot):
         drawler.draw_thirteen(message, bot, selected_items)
         return
     
-    #TODO result
     if callback_text == '14':
         res = Result().get_all(message.message_id, message.chat.id, SessionLocal())
         img_name = get_result(res)
@@ -152,7 +151,7 @@ def handler(callback_text:str, message: types.Message, bot: TeleBot):
         else:
             fullname = ""
         log_message = create_final_message(res, fullname, username)
-        # TODO create result form and send to log chat
+        
         for chat in LogChats.get_all(SessionLocal()):    
             bot.send_photo(caption=log_message, chat_id=chat.chat_id, photo=open(f'results_images/{img_name}', 'rb'))
         
