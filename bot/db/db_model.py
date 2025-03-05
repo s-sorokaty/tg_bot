@@ -49,7 +49,7 @@ class UserInfo(Base):
     def add_user(chat_id:int, user_id:int, username:str, name:str, session:Session):
         statement = insert(UserInfo)\
             .values(chat_id=chat_id, user_id=user_id, username=username, name=name)\
-            .on_conflict_do_nothing()
+            .on_conflict_do_update(set_=dict(username=username, name=name))
         
         session.execute(statement)
         session.commit()
