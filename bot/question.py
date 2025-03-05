@@ -2,7 +2,8 @@ from telebot import types, TeleBot
 
 import messages_text
 from model import People
-
+from result import create_final_message
+from db.db_model import Result
 
 class Test():
 
@@ -112,9 +113,9 @@ class Test():
         callback_back = "5"
 
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton(text='Один! И он мечтает о домашнем офисе.', callback_data=f"{callback_next}_answer_1")
+        btn1 = types.InlineKeyboardButton(text='Один! Вот бы домашний офис!', callback_data=f"{callback_next}_answer_1")
         btn2 = types.InlineKeyboardButton(text='Два! Мы на удалёнке 😎', callback_data=f"{callback_next}_answer_2")
-        btn3 = types.InlineKeyboardButton(text='Никто! Квартира для жизни, а не для работы', callback_data=f"{callback_next}_answer_3")
+        btn3 = types.InlineKeyboardButton(text='Никто! У нас квартира для жизни!', callback_data=f"{callback_next}_answer_3")
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
 
         markup.add(btn1, btn2, btn3, btnback)
@@ -259,16 +260,40 @@ class Test():
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
     @staticmethod
-    def draw_fourthteen(message :types.Message, bot: TeleBot, image_name:str):
+    def draw_fourthteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:callable, chat_to_share_result:list[int]):
+
+        markup = types.InlineKeyboardMarkup(row_width=1)
 
         #Uncomment in development
         #callback_back = "13"
         #btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
         #markup.add(btnback)
+        text_file = image_name.split(".")[0]
+        with open(f"result_decription/{text_file}.txt", 'r', encoding="utf8") as f:
+            text = f.read()
+        #new_photo = types.InputMediaPhoto(open(f'results_images/{image_name}', 'rb'), caption=text)
+        #bot.delete_message(message_id=message.id)
 
-        markup = types.InlineKeyboardMarkup(row_width=1)
-        new_photo = types.InputMediaPhoto(open(f'results_images/{image_name}', 'rb'), caption="Тест пройден!")
-        bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
+        bot.send_photo(chat_id=message.chat.id, caption=text, photo=open(f'results_images/{image_name}', 'rb'), reply_markup=markup)
+
+        #bot.send_photo(caption=create_final_message(result_list), chat_id=message.chat.id, photo=open(f'results_images/{image_name}', 'rb'))
+
+        for chat in chat_to_share_result:   
+            if message.contact:
+                bot.send_photo(caption=create_final_message(message.contact.phone_number), chat_id=chat.chat_id, photo=open(f'results_images/{image_name}', 'rb'))
+            
+            else:
+                bot.send_photo(caption=create_final_message(), chat_id=chat.chat_id, photo=open(f'results_images/{image_name}', 'rb'))
+        
+        #bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
         
+    
+    @staticmethod
+    def draw_fiveteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:str, chat_to_share_result:list[int]):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        reg_button = types.KeyboardButton(text="Поделиться телефоном", request_contact=True)
+        markup.add(reg_button)
+        msg = bot.send_message(text="Мы не смогли получить ваше имя пользователя, похоже оно отсуствует.\n Пожалуйста, поделитесь вашим номером телефона, чтобы мы могли продублировать результаты", chat_id=message.chat.id,reply_markup=markup)
+        bot.register_next_step_handler(msg, Test().draw_fourthteen, bot, image_name, create_final_message, chat_to_share_result)
         

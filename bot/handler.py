@@ -29,10 +29,14 @@ def handler(callback_text:str, message: types.Message, bot: TeleBot):
         else:
             last_name = "Скрыто"
         full_name = f"{first_name} {last_name}"
-        
+
+        if message.from_user.username:
+            username = message.from_user.username
+        else:
+            username = ""
         #save username to communicate
         UserInfo.add_user(message.chat.id, message.from_user.id,  \
-                          message.from_user.username, full_name, SessionLocal())
+                          username, full_name, SessionLocal())
         
         #Notification of start test 
         #for chat in LogChats.get_all(SessionLocal()):    
@@ -139,21 +143,23 @@ def handler(callback_text:str, message: types.Message, bot: TeleBot):
     if callback_text == '14':
         res = Result().get_all(message.message_id, message.chat.id, SessionLocal())
         img_name = get_result(res)
-        drawler.draw_fourthteen(message, bot, img_name)
-        
+ 
         user = UserInfo.get_user_by_chat_id(message.chat.id, SessionLocal())
-        if user.username:
-            username = user.username
-        else:
-            username = ""
-        if user.name:
-            fullname = user.name
-        else:
-            fullname = ""
-        log_message = create_final_message(res, fullname, username)
+        username = ""
+        fullname = ""
+        if user:
+            if user.username:
+                username = user.username
+            if user.name:
+                fullname = user.name
+            
+        def add_hone_to_final_message(phone_number:str=""):
+            return create_final_message(res, fullname, username, phone_number)
         
-        for chat in LogChats.get_all(SessionLocal()):    
-            bot.send_photo(caption=log_message, chat_id=chat.chat_id, photo=open(f'results_images/{img_name}', 'rb'))
+        if len(username) > 0:
+            drawler.draw_fourthteen(message, bot, img_name, add_hone_to_final_message, LogChats.get_all(SessionLocal()))
+        else:
+            drawler.draw_fiveteen(message, bot, img_name, add_hone_to_final_message, LogChats.get_all(SessionLocal()))
         
 
     if len(result) > 1 and \

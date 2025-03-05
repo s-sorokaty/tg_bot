@@ -94,10 +94,12 @@ def get_result(res:list[Result]):
     # Return results
     return img_name
 
-def create_final_message(result:list[Result], full_name, username) -> str:
+def create_final_message(result:list[Result], full_name, username, phone_number:str="") -> str:
     message = f"""Лид с [@smartres_quiz_bot]
 Имя: {full_name}
+Номер телефона: {phone_number}
 Телеграмм: @{username}\n"""
+    
     for res in result:
         if int(res.question_id) == 1:
             message +=f"\n{res.question_id}. Намекни нам на свой пол и возраст :)\n"
@@ -174,19 +176,20 @@ def create_final_message(result:list[Result], full_name, username) -> str:
         if int(res.question_id) == 12:
             message +=f"\n{res.question_id}. Что должно быть в квартире мечты? (Возможно несколько вариантов)\n"
             answers = res.answer.split("_")
-            if "1" in answers: message += """- Терраса\n"""
-            if "2" in answers: message += """- Камин\n"""
-            if "3" in answers: message += """- Джакузи\n"""
-            if "4" in answers: message += """- Библиотека\n"""   
-            if "5" in answers: message += """- Подвесное кресло-качель\n"""   
-            if "6" in answers: message += """- Второй этаж\n"""   
+            if "0" in answers: message += """- Терраса\n"""
+            if "1" in answers: message += """- Камин\n"""
+            if "2" in answers: message += """- Джакузи\n"""
+            if "3" in answers: message += """- Библиотека\n"""   
+            if "4" in answers: message += """- Подвесное кресло-качель\n"""   
+            if "5" in answers: message += """- Второй этаж\n"""   
 
         if int(res.question_id) == 13:
             message +=f"\n{res.question_id}. Рядом с идеальной квартирой находится...\n"
             answers = res.answer.split("_")
-            if "1" in answers: message += """- Детская площадка\n"""
-            if "2" in answers: message += """- Достопримечательности\n"""
-            if "3" in answers: message += """- Бизнес центр\n"""
-            if "4" in answers: message += """- Природа\n"""   
+            if "0" in answers: message += """- Детская площадка\n"""
+            if "1" in answers: message += """- Достопримечательности\n"""
+            if "2" in answers: message += """- Бизнес центр\n"""
+            if "3" in answers: message += """- Природа\n"""  
+             
     return message
     
