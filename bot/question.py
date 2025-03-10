@@ -250,7 +250,7 @@ class Test():
             markup.add(btn)
 
         if len(selected_items) >0:
-            btnnext = types.InlineKeyboardButton(text=messages_text.next_button, callback_data=callback_next)
+            btnnext = types.InlineKeyboardButton(text="Закончить тест▶️", callback_data=callback_next)
             markup.add(btnnext)
 
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
@@ -260,7 +260,7 @@ class Test():
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
     @staticmethod
-    def draw_fourthteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:callable, chat_to_share_result:list[int]):
+    def draw_fourthteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:callable, chat_to_share_result:list[int], asking_phone:bool=False):
 
         markup = types.InlineKeyboardMarkup(row_width=1)
 
@@ -273,27 +273,29 @@ class Test():
             text = f.read()
         #new_photo = types.InputMediaPhoto(open(f'results_images/{image_name}', 'rb'), caption=text)
         #bot.delete_message(message_id=message.id)
+        text += "\n\nЕсли Вы готовы двигаться к квартире своей мечты, мы свяжемся с Вами через тг📩"
 
-        bot.send_photo(chat_id=message.chat.id, caption=text, photo=open(f'results_images/{image_name}', 'rb'), reply_markup=markup)
+        if message.contact and asking_phone:
+            bot.send_photo(chat_id=message.chat.id, caption=text, photo=open(f'results_images/{image_name}', 'rb'), reply_markup=markup)
 
-        #bot.send_photo(caption=create_final_message(result_list), chat_id=message.chat.id, photo=open(f'results_images/{image_name}', 'rb'))
+        if not asking_phone:
+            bot.send_photo(chat_id=message.chat.id, caption=text, photo=open(f'results_images/{image_name}', 'rb'), reply_markup=markup)
 
         for chat in chat_to_share_result:   
-            if message.contact:
+            if message.contact and asking_phone:
                 bot.send_photo(caption=create_final_message(message.contact.phone_number), chat_id=chat.chat_id, photo=open(f'results_images/{image_name}', 'rb'))
-            
-            else:
+            if not asking_phone:
                 bot.send_photo(caption=create_final_message(), chat_id=chat.chat_id, photo=open(f'results_images/{image_name}', 'rb'))
-        
+
         #bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
         
     
     @staticmethod
-    def draw_fiveteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:str, chat_to_share_result:list[int]):
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-        reg_button = types.KeyboardButton(text="Поделиться телефоном", request_contact=True)
+    def draw_fiveteen(message :types.Message, bot: TeleBot, image_name:str, create_final_message:callable, chat_to_share_result:list[int]):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, )
+        reg_button = types.KeyboardButton(text="✍️Нажмите, чтобы поделиться контактом❗️", request_contact=True)
         markup.add(reg_button)
-        msg = bot.send_message(text="Мы не смогли получить ваше имя пользователя, похоже оно отсуствует.\n Пожалуйста, поделитесь вашим номером телефона, чтобы мы могли продублировать результаты", chat_id=message.chat.id,reply_markup=markup)
-        bot.register_next_step_handler(msg, Test().draw_fourthteen, bot, image_name, create_final_message, chat_to_share_result)
-        
+        msg = bot.send_message(text="""\tЕсли Вы готовы двигаться к квартире своей мечты, нажмите кнопку ниже ⬇️ и мы предложим Вам варианты👌\n\tОтправляя контакт, вы даете согласие на обработку персональных данных и соглашаетесь с политикой конфиденциальности""", chat_id=message.chat.id, reply_markup=markup)
+        bot.register_next_step_handler(msg, Test().draw_fourthteen, bot, image_name, create_final_message, chat_to_share_result, True)
+

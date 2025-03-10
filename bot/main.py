@@ -1,4 +1,5 @@
 from telebot import types, TeleBot
+from telebot.custom_filters import TextFilter, TextMatchFilter, IsReplyFilter
 
 from config import Settings
 from handler import handler
@@ -12,7 +13,14 @@ bot = TeleBot(settings.BOT_TOKEN)
 def url(message: types.Message):
     handler("0", message, bot)
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.message_handler(commands = ['politics'])
+def url(message: types.Message):
+        bot.send_document(
+            chat_id=message.chat.id, 
+            document=open('Политика конфеденциальности.pdf', 'rb'),
+        )
+
+@bot.callback_query_handler(func=None)
 def callback_inline(call: types.CallbackQuery):
     handler(call.data, call.message, bot)
 
