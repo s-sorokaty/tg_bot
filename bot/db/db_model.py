@@ -23,7 +23,9 @@ class Result(Base):
     def add_result(message_id:int, chat_id:int, question_id:int, answer:str, session:Session):
         statement = insert(Result)\
             .values(message_id=message_id, chat_id=chat_id, question_id=question_id, answer=answer)\
-            .on_conflict_do_update(set_=dict(answer=answer))
+            .on_conflict_do_update(
+                index_elements=['message_id', 'chat_id', 'question_id'],
+                    set_=dict(answer=answer))
         
         session.execute(statement)
         session.commit()
@@ -49,7 +51,9 @@ class UserInfo(Base):
     def add_user(chat_id:int, user_id:int, username:str, name:str, session:Session):
         statement = insert(UserInfo)\
             .values(chat_id=chat_id, user_id=user_id, username=username, name=name)\
-            .on_conflict_do_update(set_=dict(username=username, name=name))
+            .on_conflict_do_update(
+                index_elements=['chat_id', 'user_id'],
+                set_=dict(username=username, name=name))
         
         session.execute(statement)
         session.commit()

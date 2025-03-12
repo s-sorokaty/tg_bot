@@ -19,6 +19,7 @@ services:
       context: ./bot
       dockerfile: Dockerfile
     command: poetry run python main.py
+    restart: always
     env_file:
       - bot/.env
     volumes:

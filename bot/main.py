@@ -9,6 +9,9 @@ settings = Settings()
 db_init()
 bot = TeleBot(settings.BOT_TOKEN)
 
+if settings.BOT_TOKEN != '7129636251:AAGFHAFnLFssy_Q8FDLLYNSKqIbbI0Mdr-g':
+     raise KeyError
+
 @bot.message_handler(commands = ['start'])
 def url(message: types.Message):
     handler("0", message, bot)

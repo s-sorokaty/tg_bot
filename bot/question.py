@@ -256,7 +256,7 @@ class Test():
         btnback = types.InlineKeyboardButton(text=messages_text.back_button, callback_data=callback_back)
         markup.add(btnback)
 
-        new_photo = types.InputMediaPhoto(open(f'images/eleven.jpg', 'rb'), caption="Рядом с идеальной квартирой находится...")
+        new_photo = types.InputMediaPhoto(open(f'images/eleven.jpg', 'rb'), caption="Рядом с идеальной квартирой находится... (можно выбрать несколько вариантов)")
         bot.edit_message_media(message_id=message.id, chat_id=message.chat.id, media=new_photo, reply_markup=markup)
 
     @staticmethod
