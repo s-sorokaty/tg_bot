@@ -26,12 +26,12 @@ services:
       - ./bot/:/workspace/
   #  depends_on:
   #    - db
-    networks:
-      - bot-net
+    #networks:
+    #  - bot-net
 
-networks:
-  bot-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.138.0.0/24
+#networks:
+#  bot-net:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.138.0.0/24
