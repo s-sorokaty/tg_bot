@@ -273,7 +273,7 @@ class Test():
             text = f.read()
         #new_photo = types.InputMediaPhoto(open(f'results_images/{image_name}', 'rb'), caption=text)
         #bot.delete_message(message_id=message.id)
-        text += "\n\nЕсли Вы готовы двигаться к квартире своей мечты, мы свяжемся с Вами через тг📩"
+        text += "\n\nПривет! 👋 Я - Екатерина, ваш персональный брокер по недвижимости. Спасибо за прохождение квиза! У меня уже есть готовые предложения, на основе ваших предпочтений и с выгодными   финансовыми условиями.\nДавайте созвонимся, чтобы выбрать подходящие вам варианты и обсудить детали. Я всегда на связи и готова помочь вам найти идеальный дом! 🏡✨"
 
         if message.contact and asking_phone:
             bot.send_photo(chat_id=message.chat.id, caption=text, photo=open(f'results_images/{image_name}', 'rb'), reply_markup=markup)
