@@ -21,6 +21,7 @@ CHAT_TO_SEND_RESULT=[1234] - id чата в который необходимо 
 
 1. docker-compose build # сборка контейнеров
 2. docker-compose up -d # включение собранного контейнера
+3. docker-compose down # отключить контейнер
 
 ## Запуск нативно
 
