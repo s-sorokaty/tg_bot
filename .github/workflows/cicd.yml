@@ -10,8 +10,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: Deploy on server
         uses: D3rHase/ssh-command-action@v0.2.2
         with:
